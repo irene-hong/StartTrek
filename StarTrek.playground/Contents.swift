@@ -24,6 +24,31 @@
  Can do basic sorts on arrays without even passing arguments to it, but can also pass in blocks that handle more complex sorting if using *by:* parameter.
  
 */
+// strings.map { $0.count }
+// scores.map { $0 > 85 ? 'Pass' : 'Fail' }
+// scores.map {40...45 ~= $0 ? 'average' : 'not'}
+
+
+// .forEach { print($0) }
+
+//Array(numbers.joined())
+//OR numbers.flatMap() outdated
+
+// officers.compactMap {$0}
+// scores.compactMap { Int($0) } // otherwise will get optionals
+
+// names.filter { $0.hasPrefix("Mi") }
+
+// scores.reduce(0){$0 + $1}
+// scores.reduce(""){$0 + String($1)}
+
+
+// number of people whose names.count < 5
+// names.reduce(0) { $1.count < 5 ? $0 + 1 : $0 }
+
+// .min() .max()
+// names.max { $1.count > $0.count } returns an optional
+
 var captains: [String: String] = ["kirk": "ncc1701", "sisko": "nx74205", "janeway": "ncc74656", "picard": "ncc1701d"]
 
 var firstOfficers: [String: String] = ["spock": "ncc1701", "kira": "nx74205", "chakotay": "ncc74656", "riker": "ncc1701d", "tpol": "nx01"]
@@ -38,22 +63,24 @@ var femaleOfficers: [String] = ["kira", "dax", "tpol", "janeway", "troi", "seven
 First, a set of warm-up problems for everyone
 */
 // Q0: How many human officers are there?
-
+let countHuman = humanOfficers.count
+print(countHuman)
 
 
 
 // Q1: What percentage of humans are female?
-
+let res = humanOfficers.filter {femaleOfficers.contains($0)}
+print((Double)(res.count) / Double(countHuman))
 
 
 
 // Q2: How many first officers are human?
-
-
+let res2 = firstOfficers.filter {humanOfficers.contains($0.key)}.count
+print(res2)
 
 
 // Q3: Get a list of females sorted by name
-
+femaleOfficers.sorted()
 
 
 
@@ -86,12 +113,12 @@ struct Officer: Comparable {
 Group 1
 */
 // Q4: Create an array of officer objects who captain starships
-
+var officerShips = captains.map { Officer(name: $0.key, ship: $0.value)}
 
 
 
 // Q5: Alphabetize the previous list by the captain's name
-
+officerShips.sort()
 
 
 
@@ -99,13 +126,13 @@ Group 1
 Group 2
 */
 // Q6: Create an array of officers serving as first officers who are also Vulcan
-
+let vulcan = firstOfficers.filter {vulcanOfficers.contains($0.key)}.map { Officer(name: $0.key, ship: $0.value) }
 
 
 
 
 // Q7: How many these Vulcan first officers have names shorter than 5 characters?
-
+print(vulcan.reduce(0) { $1.name.count < 5 ? $0 + 1 : $0 })
 
 
 
